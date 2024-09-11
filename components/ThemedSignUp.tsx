@@ -1,12 +1,22 @@
 import { useRouter } from "expo-router";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from "@/constants/Colors";
+import { Ionicons } from '@expo/vector-icons';
 
 export default function ThemedSignUp() {
     const router = useRouter();
+    const insets = useSafeAreaInsets();
 
     return (
         <View style={styles.container}>
+            <TouchableOpacity
+                style={[styles.backButton, { top: insets.top + 20 }]}
+                onPress={() => router.back()}
+            >
+                <Ionicons name="arrow-back" size={24} color={Colors.black} />
+            </TouchableOpacity>
+
             <Text style={styles.title}>Create an Account</Text>
             <Text style={styles.subtitle}>Join Us</Text>
             <Text style={styles.description}>Let's get you started!</Text>
@@ -53,6 +63,11 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.white,
         paddingHorizontal: 20,
         justifyContent: 'center',
+    },
+    backButton: {
+        position: 'absolute',
+        left: 20,
+        zIndex: 1,
     },
     title: {
         fontSize: 30,
