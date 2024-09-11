@@ -1,12 +1,52 @@
 import { useRouter } from "expo-router";
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert } from "react-native";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from '@expo/vector-icons';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '@/configs/Firebase';
+import { useState } from "react";
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
 
 export default function ThemedSignIn() {
     const router = useRouter();
     const insets = useSafeAreaInsets();
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const validateInputs = () => {
+        if (!EMAIL_REGEX.test(email)) {
+            Alert.alert("Validation Error", "Invalid email address.");
+            return false;
+        }
+        if (!PASSWORD_REGEX.test(password)) {
+            Alert.alert("Validation Error", "Password must be at least 6 characters long and contain both letters and numbers.");
+            return false;
+        }
+        return true;
+    };
+
+    const OnSignIn = () => {
+        if (validateInputs()) {
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    router.replace('/');
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    if (errorCode == 'auth/invalid-credential') {
+                        Alert.alert("Error", "Invalid Credentials");
+                    } else {
+                        Alert.alert("Error", errorMessage);
+                    }
+                });
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -26,25 +66,27 @@ export default function ThemedSignIn() {
                     style={styles.input}
                     placeholder="Enter Email"
                     placeholderTextColor={Colors.gray}
+                    onChangeText={setEmail}
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="Enter Password"
                     placeholderTextColor={Colors.gray}
                     secureTextEntry
+                    onChangeText={setPassword}
                 />
             </View>
 
             <TouchableOpacity
                 style={styles.signInButton}
-                onPress={() => router.replace('auth/home')}
+                onPress={OnSignIn}
             >
                 <Text style={styles.signInButtonText}>Sign In</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
                 style={styles.createAccountButton}
-                onPress={() => router.replace('auth/sign-up')}
+                onPress={() => router.replace('/auth/sign-up')}
             >
                 <Text style={styles.createAccountText}>Create Account</Text>
             </TouchableOpacity>
