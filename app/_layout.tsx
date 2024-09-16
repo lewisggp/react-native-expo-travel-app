@@ -2,9 +2,12 @@ import { useState, useEffect } from "react";
 import * as Font from "expo-font";
 import { Stack } from "expo-router";
 import { View, Text, ActivityIndicator } from "react-native";
+import { CreateTripContext } from "@/contexts/CreateTripContext";
 
 export default function RootLayout() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  const [tripData, setTripData] = useState<any>([])
 
   useEffect(() => {
     async function loadFonts() {
@@ -29,13 +32,15 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack>
-      <Stack.Screen
-        name="(tabs)"
-        options={{
-          headerShown: false
-        }}
-      />
-    </Stack>
+    <CreateTripContext.Provider value={{ tripData, setTripData }}>
+      <Stack>
+        <Stack.Screen
+          name="(tabs)"
+          options={{
+            headerShown: false
+          }}
+        />
+      </Stack>
+    </CreateTripContext.Provider>
   );
 }
