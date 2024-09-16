@@ -44,7 +44,11 @@ export default function ThemedSignUp() {
                 .catch((error) => {
                     const errorCode = error.code;
                     const errorMessage = error.message;
-                    Alert.alert("Error", errorMessage);
+                    if (errorCode == 'auth/email-already-in-use') {
+                        Alert.alert("Error", "Email already in use");
+                    } else {
+                        Alert.alert("Error", errorMessage);
+                    }
                 });
         }
     };
