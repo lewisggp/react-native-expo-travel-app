@@ -1,9 +1,7 @@
-import { Text, View } from "react-native";
+import MyTrip from "@/components/(tabs)/MyTrip"
 
-export default function MyTrip() {
+export default function mytrip() {
     return (
-        <View>
-            <Text>MyTrip</Text>
-        </View>
+        <MyTrip />
     )
 }
