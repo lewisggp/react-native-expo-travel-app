@@ -34,7 +34,7 @@ export default function ThemedSignIn() {
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     const user = userCredential.user;
-                    router.replace('/');
+                    router.replace('/(tabs)mytrip');
                 })
                 .catch((error) => {
                     const errorCode = error.code;
