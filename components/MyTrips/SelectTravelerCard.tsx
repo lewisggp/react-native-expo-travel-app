@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native
 import { useContext, useEffect, useState } from 'react';
 import { Colors } from '@/constants/Colors';
 import { TravelerOptions } from '@/constants/TravelerOptions';
-import TravelerOptionCard from './TravelerOptionCard';
+import OptionCard from './OptionCard';
 import { CreateTripContext } from '@/contexts/CreateTripContext';
 import { Link } from 'expo-router';
 
@@ -14,7 +14,7 @@ export default function SelectTraveler() {
     useEffect(() => {
         setTripData({
             ...tripData,
-            travelerOption
+            travelerOption: travelerOption?.title
         })
     }, [travelerOption])
 
@@ -31,7 +31,7 @@ export default function SelectTraveler() {
                             style={styles.optionContainer}
                             onPress={() => setTravelerOption(item)}
                         >
-                            <TravelerOptionCard option={item} selected={travelerOption?.title === item.title} />
+                            <OptionCard option={item} selected={travelerOption?.title === item.title} />
                         </TouchableOpacity>
                     )}
                 />

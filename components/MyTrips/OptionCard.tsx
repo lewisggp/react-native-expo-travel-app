@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { Colors } from '@/constants/Colors';
 
-interface TravelerOptionCardProps {
+interface OptionCardProps {
     option: {
         title: string;
         description: string;
@@ -10,7 +10,7 @@ interface TravelerOptionCardProps {
     selected?: boolean;
 }
 
-export default function TravelerOptionCard({ option, selected = false }: TravelerOptionCardProps) {
+export default function OptionCard({ option, selected = false }: OptionCardProps) {
     return (
         <View style={[styles.container, selected && styles.selectedContainer]}>
             <View style={styles.textContainer}>

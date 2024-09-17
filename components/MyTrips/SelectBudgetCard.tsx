@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native
 import { useContext, useEffect, useState } from 'react';
 import { Colors } from '@/constants/Colors';
 import { BudgetOptions } from '@/constants/BudgetOptions';
-import TravelerOptionCard from './TravelerOptionCard';
+import OptionCard from './OptionCard';
 import { CreateTripContext } from '@/contexts/CreateTripContext';
 import { Link } from 'expo-router';
 
@@ -14,7 +14,7 @@ export default function SelectBudgetCard() {
     useEffect(() => {
         setTripData({
             ...tripData,
-            budgetOption
+            budgetOption: budgetOption?.title
         })
     }, [budgetOption])
 
@@ -31,7 +31,7 @@ export default function SelectBudgetCard() {
                             style={styles.optionContainer}
                             onPress={() => setBudgetOption(item)}
                         >
-                            <TravelerOptionCard option={item} selected={budgetOption?.title === item.title} />
+                            <OptionCard option={item} selected={budgetOption?.title === item.title} />
                         </TouchableOpacity>
                     )}
                 />

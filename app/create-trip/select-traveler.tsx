@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-export default function SearchTraveler() {
+export default function SelectTraveler() {
     const insets = useSafeAreaInsets();
     const navigation = useNavigation();
 

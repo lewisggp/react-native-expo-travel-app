@@ -9,7 +9,7 @@ export default function SearchTripCard() {
     const { tripData, setTripData } = useContext(CreateTripContext);
 
     useEffect(() => {
-        //console.log("Trip Data Updated", tripData);
+        console.log("Trip Data Updated", tripData);
     }, [tripData]);
 
     return (
