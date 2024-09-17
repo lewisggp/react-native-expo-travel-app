@@ -28,6 +28,7 @@ export default function SearchTripCard() {
                             url: 'url'
                         }
                     })}
+                    onSubmitEditing={(text) => router.push('/create-trip/select-traveler')}
                     returnKeyType="search"
                 />
             </View>
