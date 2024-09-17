@@ -8,7 +8,7 @@ export default function TabLayout() {
             headerShown: false,
             tabBarActiveTintColor: Colors.primary
         }}>
-            <Tabs.Screen name="mytrip"
+            <Tabs.Screen name="my-trip"
                 options={{
                     tabBarLabel: "My Trip",
                     tabBarIcon: ({ color }) => <Ionicons name="location-sharp" size={24} color={color} />

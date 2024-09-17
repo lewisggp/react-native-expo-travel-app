@@ -18,7 +18,7 @@ export default function Login() {
                     Discover your next adventure, explore unique destinations, and create unforgettable experiences.
                 </Text>
                 <TouchableOpacity style={styles.button}
-                    onPress={() => router.push('auth/sign-in')}
+                    onPress={() => router.push('/auth/sign-in')}
                 >
                     <Text style={styles.textButton}>
                         Sign In With Google

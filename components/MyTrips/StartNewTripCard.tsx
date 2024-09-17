@@ -16,7 +16,7 @@ export default function StartNewTripCard() {
 
             <TouchableOpacity
                 style={styles.startTripButton}
-                onPress={() => router.push('/create-trip/searchplace')}
+                onPress={() => router.push('/create-trip/search-place')}
             >
                 <Text style={styles.startTripButtonText}>Start a new trip</Text>
             </TouchableOpacity>
