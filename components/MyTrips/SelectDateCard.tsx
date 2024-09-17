@@ -4,12 +4,15 @@ import React, { useContext, useState } from 'react'
 import { Colors } from '@/constants/Colors';
 import moment, { Moment } from 'moment';
 import { CreateTripContext } from '@/contexts/CreateTripContext';
+import { useRouter } from 'expo-router';
 
 export default function SelectDateCard() {
     const [startDate, setStartDate] = useState<Moment>();
     const [endDate, setEndDate] = useState<Moment>();
 
     const { tripData, setTripData } = useContext(CreateTripContext);
+
+    const router = useRouter();
 
     const onDateChange = (date: any, type: any) => {
         if (type === 'START_DATE') {
@@ -36,6 +39,8 @@ export default function SelectDateCard() {
             endDate: endDate,
             totalDays: totalDays + 1
         });
+
+        router.push('/create-trip/select-budget')
     }
 
     return (
