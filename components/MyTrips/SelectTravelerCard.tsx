@@ -4,6 +4,7 @@ import { Colors } from '@/constants/Colors';
 import { TravelerOptions } from '@/constants/TravelerOptions';
 import TravelerOptionCard from './TravelerOptionCard';
 import { CreateTripContext } from '@/contexts/CreateTripContext';
+import { Link } from 'expo-router';
 
 export default function SelectTraveler() {
     const travelerOptions = TravelerOptions;
@@ -37,7 +38,9 @@ export default function SelectTraveler() {
             </View>
 
             <TouchableOpacity style={styles.buttonContainer}>
-                <Text style={styles.buttonText}>Continue</Text>
+                <Link href={'/create-trip/select-date'} style={{ textAlign: 'center' }}>
+                    <Text style={styles.buttonText}>Continue</Text>
+                </Link>
             </TouchableOpacity>
         </View>
     );
