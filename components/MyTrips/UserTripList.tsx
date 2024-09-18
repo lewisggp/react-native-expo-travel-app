@@ -3,8 +3,11 @@ import React from 'react'
 import moment from 'moment';
 import { Colors } from '@/constants/Colors';
 import UserTripCard from './UserTripCard';
+import { useRouter } from 'expo-router';
 
 export default function UserTripList({ userTrips }: { userTrips: any[] }) {
+    const router = useRouter();
+
     const LatestTrip = JSON.parse(userTrips[0].tripData)
 
     const LatestTripImage = () => {
@@ -32,6 +35,12 @@ export default function UserTripList({ userTrips }: { userTrips: any[] }) {
 
             <TouchableOpacity
                 style={styles.buttonContainer}
+                onPress={() => router.push({
+                    pathname: '/trip-details',
+                    params: {
+                        trip: JSON.stringify(userTrips[0])
+                    }
+                })}
             >
                 <Text style={styles.buttonText}>See your plan</Text>
             </TouchableOpacity>
