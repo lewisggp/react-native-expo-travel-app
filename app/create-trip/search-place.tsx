@@ -1,4 +1,5 @@
 import SearchTripCard from "@/components/MyTrips/SearchTripCard";
+import { Colors } from "@/constants/Colors";
 import { useNavigation } from "expo-router";
 import { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
@@ -17,7 +18,7 @@ export default function SearchPlace() {
     }, [])
 
     return (
-        <View style={[styles.content, { top: insets.top + 50 }]}>
+        <View style={[styles.content, { paddingTop: insets.top + 50 }]}>
             <SearchTripCard />
         </View>
     )
@@ -26,7 +27,6 @@ export default function SearchPlace() {
 const styles = StyleSheet.create({
     content: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        backgroundColor: Colors.white,
     },
 });

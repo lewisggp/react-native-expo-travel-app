@@ -1,8 +1,9 @@
-import { View, TextInput, StyleSheet, Text } from "react-native";
-import { useRouter } from "expo-router";
+import { View, TextInput, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { Link, useRouter } from "expo-router";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { useContext, useEffect, useState } from "react";
 import { CreateTripContext } from "@/contexts/CreateTripContext";
+import { Colors } from "@/constants/Colors";
 
 export default function SearchTripCard() {
     const router = useRouter();
@@ -33,7 +34,7 @@ export default function SearchTripCard() {
                 />
             </View>
 
-            <GooglePlacesAutocomplete
+            {/* <GooglePlacesAutocomplete
                 placeholder='Search location'
                 fetchDetails={true}
                 onPress={(data, details = null) => {
@@ -54,19 +55,20 @@ export default function SearchTripCard() {
                     textInputContainer: styles.textInputContainer,
                     textInput: styles.textInput,
                 }}
-            />
+            /> */}
 
+            <TouchableOpacity style={styles.buttonContainer}>
+                <Link href={'/create-trip/select-traveler'} style={{ textAlign: 'center' }}>
+                    <Text style={styles.buttonText}>Continue</Text>
+                </Link>
+            </TouchableOpacity>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: 20,
+        padding: 20,
     },
     textInputContainer: {
         width: '100%',
@@ -82,5 +84,17 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         paddingHorizontal: 10,
         backgroundColor: '#fff',
+    },
+    buttonContainer: {
+        padding: 15,
+        backgroundColor: Colors.primary,
+        borderRadius: 15,
+        marginTop: 20,
+    },
+    buttonText: {
+        textAlign: 'center',
+        color: Colors.white,
+        fontFamily: 'outfit-medium',
+        fontSize: 20,
     },
 });
