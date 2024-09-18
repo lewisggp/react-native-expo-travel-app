@@ -43,7 +43,7 @@ export default function UserTripList({ userTrips }: any) {
                 renderItem={({ item }) => (
                     <UserTripCard trip={item} />
                 )}
-                keyExtractor={(item) => item.title}
+                keyExtractor={(item) => item.docId}
             />
 
         </View>
