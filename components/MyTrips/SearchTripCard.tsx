@@ -1,5 +1,5 @@
-import { View, TextInput, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { Link, useRouter } from "expo-router";
+import { View, TextInput, StyleSheet, Text, TouchableOpacity, Alert } from "react-native";
+import { useRouter } from "expo-router";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { useContext, useEffect, useState } from "react";
 import { CreateTripContext } from "@/contexts/CreateTripContext";
@@ -8,16 +8,27 @@ import { Colors } from "@/constants/Colors";
 export default function SearchTripCard() {
     const router = useRouter();
     const { tripData, setTripData } = useContext(CreateTripContext);
+    const [inputError, setInputError] = useState(false);
 
     useEffect(() => {
         console.log("Trip Data Updated", tripData);
     }, [tripData]);
 
+    const handleContinue = () => {
+        if (!tripData.locationInfo?.query || tripData.locationInfo.query.trim() === "") {
+            setInputError(true);
+            Alert.alert("Error", "Please enter a location to continue.");
+        } else {
+            setInputError(false);
+            router.push('/create-trip/select-traveler');
+        }
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.textInputContainer}>
                 <TextInput
-                    style={styles.textInput}
+                    style={[styles.textInput, inputError && styles.errorInput]}
                     placeholder="Search location"
                     value={tripData.locationInfo?.query || ''}
                     onChangeText={(text) => setTripData({
@@ -29,7 +40,7 @@ export default function SearchTripCard() {
                             url: 'url'
                         }
                     })}
-                    onSubmitEditing={(text) => router.push('/create-trip/select-traveler')}
+                    onSubmitEditing={handleContinue}
                     returnKeyType="search"
                 />
             </View>
@@ -57,10 +68,8 @@ export default function SearchTripCard() {
                 }}
             /> */}
 
-            <TouchableOpacity style={styles.buttonContainer}>
-                <Link href={'/create-trip/select-traveler'} style={{ textAlign: 'center' }}>
-                    <Text style={styles.buttonText}>Continue</Text>
-                </Link>
+            <TouchableOpacity style={styles.buttonContainer} onPress={handleContinue}>
+                <Text style={styles.buttonText}>Continue</Text>
             </TouchableOpacity>
         </View>
     );
@@ -84,6 +93,9 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         paddingHorizontal: 10,
         backgroundColor: '#fff',
+    },
+    errorInput: {
+        borderColor: 'red',
     },
     buttonContainer: {
         padding: 15,

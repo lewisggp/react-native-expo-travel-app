@@ -1,22 +1,31 @@
-import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, Alert } from 'react-native';
 import { useContext, useEffect, useState } from 'react';
 import { Colors } from '@/constants/Colors';
 import { BudgetOptions } from '@/constants/BudgetOptions';
 import OptionCard from './OptionCard';
 import { CreateTripContext } from '@/contexts/CreateTripContext';
-import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 
 export default function SelectBudgetCard() {
     const budgetOptions = BudgetOptions;
     const [budgetOption, setBudgetOption] = useState<any>();
     const { tripData, setTripData } = useContext(CreateTripContext);
+    const router = useRouter();
 
     useEffect(() => {
         setTripData({
             ...tripData,
             budgetOption: budgetOption?.title
-        })
-    }, [budgetOption])
+        });
+    }, [budgetOption]);
+
+    const handleContinue = () => {
+        if (!budgetOption) {
+            Alert.alert("Error", "Please select a budget option before continuing.");
+        } else {
+            router.push('/create-trip/review-trip');
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -26,7 +35,7 @@ export default function SelectBudgetCard() {
             <View>
                 <FlatList
                     data={budgetOptions}
-                    renderItem={({ item, index }) => (
+                    renderItem={({ item }) => (
                         <TouchableOpacity
                             style={styles.optionContainer}
                             onPress={() => setBudgetOption(item)}
@@ -34,13 +43,15 @@ export default function SelectBudgetCard() {
                             <OptionCard option={item} selected={budgetOption?.title === item.title} />
                         </TouchableOpacity>
                     )}
+                    keyExtractor={(item) => item.title}
                 />
             </View>
 
-            <TouchableOpacity style={styles.buttonContainer}>
-                <Link href={'/create-trip/review-trip'} style={{ textAlign: 'center' }}>
-                    <Text style={styles.buttonText}>Continue</Text>
-                </Link>
+            <TouchableOpacity
+                style={styles.buttonContainer}
+                onPress={handleContinue}
+            >
+                <Text style={styles.buttonText}>Continue</Text>
             </TouchableOpacity>
         </View>
     );

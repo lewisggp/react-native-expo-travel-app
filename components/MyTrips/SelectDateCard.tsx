@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ToastAndroid } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native'
 import CalendarPicker from "react-native-calendar-picker";
 import React, { useContext, useState } from 'react'
 import { Colors } from '@/constants/Colors';
@@ -27,8 +27,7 @@ export default function SelectDateCard() {
         console.log(startDate, endDate);
 
         if (!startDate || !endDate) {
-            console.log("error");
-            ToastAndroid.show("Please select both start and end dates.", ToastAndroid.SHORT);
+            Alert.alert("Error", "Please select both start and end dates.");
             return;
         }
 
