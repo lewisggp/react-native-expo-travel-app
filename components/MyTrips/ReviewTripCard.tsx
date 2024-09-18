@@ -52,7 +52,7 @@ export default function ReviewTripCard() {
             </View>
 
             <TouchableOpacity style={styles.buttonContainer}>
-                <Link href={'/create-trip/select-date'} style={{ textAlign: 'center' }}>
+                <Link href={'/create-trip/generate-trip'} style={{ textAlign: 'center' }}>
                     <Text style={styles.buttonText}>Build My Trip</Text>
                 </Link>
             </TouchableOpacity>
