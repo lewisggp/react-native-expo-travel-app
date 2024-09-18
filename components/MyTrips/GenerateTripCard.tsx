@@ -1,12 +1,48 @@
+import { AI_PROMPT } from "@/constants/AiOptions";
 import { Colors } from "@/constants/Colors";
 import { CreateTripContext } from "@/contexts/CreateTripContext";
 import { useRouter } from "expo-router";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { View, Image, Text, StyleSheet } from "react-native";
+import { chatSession } from "@/configs/AiModal";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "@/configs/Firebase";
 
 export default function GenerateTripCard() {
     const { tripData, setTripData } = useContext(CreateTripContext);
     const router = useRouter();
+    const user = auth.currentUser;
+
+    useEffect(() => {
+        if (tripData) {
+            GenerateAiTrip()
+        }
+    }, [tripData])
+
+    const GenerateAiTrip = async () => {
+        const FINAL_PROMPT = AI_PROMPT.replace('{location}', tripData?.locationInfo?.name)
+            .replace('{totalDays}', tripData?.totalDays)
+            .replace('{totalNights}', (tripData?.totalDays ? tripData.totalDays - 1 : 0).toString())
+            .replace('{traveler}', tripData?.travelerOption)
+            .replace('{budget}', tripData?.budgetOption)
+            .replace('{totalDays}', tripData?.totalDays)
+            .replace('{totalNights}', (tripData?.totalDays ? tripData.totalDays - 1 : 0).toString())
+
+        const docId = (Date.now()).toString();
+        const result = await chatSession.sendMessage(FINAL_PROMPT);
+        const tripPlan = result.response.text();
+
+        const response = await setDoc(doc(db, 'UserTrips', docId),
+            {
+                userEmail: user?.email,
+                tripPlan: JSON.parse(tripPlan),
+                tripData: JSON.stringify(tripData),
+                docId: docId
+            }
+        )
+
+        router.push('/(tabs)/my-trip')
+    }
 
     return (
         <View style={styles.container}>
