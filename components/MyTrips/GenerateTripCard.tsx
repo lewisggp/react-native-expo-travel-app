@@ -1,48 +1,46 @@
+import { useState, useContext, useEffect } from "react";
+import { View, Image, Text, StyleSheet } from "react-native";
 import { AI_PROMPT } from "@/constants/AiOptions";
 import { Colors } from "@/constants/Colors";
 import { CreateTripContext } from "@/contexts/CreateTripContext";
 import { useRouter } from "expo-router";
-import { useContext, useEffect } from "react";
-import { View, Image, Text, StyleSheet } from "react-native";
 import { chatSession } from "@/configs/AiModal";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/configs/Firebase";
 
 export default function GenerateTripCard() {
-    const { tripData, setTripData } = useContext(CreateTripContext);
+    const { tripData } = useContext(CreateTripContext);
     const router = useRouter();
     const user = auth.currentUser;
+    const [tripGenerated, setTripGenerated] = useState(false);
 
     useEffect(() => {
-        if (tripData) {
-            GenerateAiTrip()
+        if (tripData && !tripGenerated) {
+            GenerateAiTrip();
         }
-    }, [tripData])
+    }, [tripData]);
 
     const GenerateAiTrip = async () => {
         const FINAL_PROMPT = AI_PROMPT.replace('{location}', tripData?.locationInfo?.name)
             .replace('{totalDays}', tripData?.totalDays)
             .replace('{totalNights}', (tripData?.totalDays ? tripData.totalDays - 1 : 0).toString())
             .replace('{traveler}', tripData?.travelerOption)
-            .replace('{budget}', tripData?.budgetOption)
-            .replace('{totalDays}', tripData?.totalDays)
-            .replace('{totalNights}', (tripData?.totalDays ? tripData.totalDays - 1 : 0).toString())
+            .replace('{budget}', tripData?.budgetOption);
 
         const docId = (Date.now()).toString();
         const result = await chatSession.sendMessage(FINAL_PROMPT);
         const tripPlan = result.response.text();
 
-        const response = await setDoc(doc(db, 'UserTrips', docId),
-            {
-                userEmail: user?.email,
-                tripPlan: JSON.parse(tripPlan),
-                tripData: JSON.stringify(tripData),
-                docId: docId
-            }
-        )
+        await setDoc(doc(db, 'UserTrips', docId), {
+            userEmail: user?.email,
+            tripPlan: JSON.parse(tripPlan),
+            tripData: JSON.stringify(tripData),
+            docId: docId
+        });
 
-        router.push('/(tabs)/my-trip')
-    }
+        setTripGenerated(true);
+        router.push('/(tabs)/my-trip');
+    };
 
     return (
         <View style={styles.container}>
@@ -51,7 +49,7 @@ export default function GenerateTripCard() {
             <Image style={styles.icon} source={require('@/assets/images/plane.gif')} />
             <Text style={styles.subtitle}>Do not go back</Text>
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -75,5 +73,5 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 200,
         objectFit: 'contain',
-    }
+    },
 });
