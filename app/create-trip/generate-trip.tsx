@@ -1,4 +1,4 @@
-import GenerateTripCard from "@/components/MyTrips/GenerateTripCard";
+import GenerateTripCard from "@/components/CreateTrip/GenerateTripCard";
 import { Colors } from "@/constants/Colors";
 import { useNavigation } from "expo-router";
 import { useEffect } from "react";

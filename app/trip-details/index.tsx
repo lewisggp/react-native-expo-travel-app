@@ -1,4 +1,4 @@
-import TripDetailCard from "@/components/MyTrips/TripDetailCard";
+import TripDetailCard from "@/components/TripDetails/TripDetailCard";
 import { Colors } from "@/constants/Colors";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect } from "react";

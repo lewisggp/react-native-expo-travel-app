@@ -1,4 +1,4 @@
-import SelectDateCard from "@/components/MyTrips/SelectDateCard";
+import SelectDateCard from "@/components/CreateTrip/SelectDateCard";
 import { Colors } from "@/constants/Colors";
 import { useNavigation } from "expo-router";
 import { useEffect } from "react";

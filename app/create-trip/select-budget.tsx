@@ -1,4 +1,4 @@
-import SelectBudgetCard from "@/components/MyTrips/SelectBudgetCard";
+import SelectBudgetCard from "@/components/CreateTrip/SelectBudgetCard";
 import { Colors } from "@/constants/Colors";
 import { useNavigation } from "expo-router";
 import { useEffect } from "react";

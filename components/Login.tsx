@@ -21,7 +21,7 @@ export default function Login() {
                     onPress={() => router.push('/auth/sign-in')}
                 >
                     <Text style={styles.textButton}>
-                        Sign In With Google
+                        Sign In
                     </Text>
                 </TouchableOpacity>
             </View>

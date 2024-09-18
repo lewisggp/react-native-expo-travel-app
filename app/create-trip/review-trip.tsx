@@ -1,4 +1,4 @@
-import ReviewTripCard from "@/components/MyTrips/ReviewTripCard";
+import ReviewTripCard from "@/components/CreateTrip/ReviewTripCard";
 import { Colors } from "@/constants/Colors";
 import { useNavigation } from "expo-router";
 import { useEffect } from "react";
