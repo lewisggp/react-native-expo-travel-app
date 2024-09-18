@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { View, Image, Text, StyleSheet } from "react-native";
+import { View, Image, Text, StyleSheet, Alert } from "react-native";
 import { AI_PROMPT } from "@/constants/AiOptions";
 import { Colors } from "@/constants/Colors";
 import { CreateTripContext } from "@/contexts/CreateTripContext";
@@ -9,7 +9,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/configs/Firebase";
 
 export default function GenerateTripCard() {
-    const { tripData } = useContext(CreateTripContext);
+    const { tripData, setTripData } = useContext(CreateTripContext);
     const router = useRouter();
     const user = auth.currentUser;
     const [tripGenerated, setTripGenerated] = useState(false);
@@ -21,6 +21,11 @@ export default function GenerateTripCard() {
     }, [tripData]);
 
     const GenerateAiTrip = async () => {
+        if (!tripData) {
+            Alert.alert("Error", "Trip Data is Empty");
+            return;
+        }
+
         const FINAL_PROMPT = AI_PROMPT.replace('{location}', tripData?.locationInfo?.name)
             .replace('{totalDays}', tripData?.totalDays)
             .replace('{totalNights}', (tripData?.totalDays ? tripData.totalDays - 1 : 0).toString())
@@ -40,6 +45,8 @@ export default function GenerateTripCard() {
 
         setTripGenerated(true);
         router.push('/(tabs)/my-trip');
+
+        setTripData(undefined)
     };
 
     return (

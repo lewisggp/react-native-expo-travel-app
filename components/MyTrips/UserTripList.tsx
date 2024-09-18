@@ -4,12 +4,10 @@ import moment from 'moment';
 import { Colors } from '@/constants/Colors';
 import UserTripCard from './UserTripCard';
 
-export default function UserTripList({ userTrips }: any) {
+export default function UserTripList({ userTrips }: { userTrips: any[] }) {
     const LatestTrip = JSON.parse(userTrips[0].tripData)
 
     const LatestTripImage = () => {
-        console.log(LatestTrip.locationInfo?.photoRef)
-
         if (process.env.EXPO_PUBLIC_GOOGLE_MAP_KEY == 'YOUR API KEY') {
             return require('@/assets/images/Placeholder.jpg');
         }
@@ -38,14 +36,7 @@ export default function UserTripList({ userTrips }: any) {
                 <Text style={styles.buttonText}>See your plan</Text>
             </TouchableOpacity>
 
-            <FlatList
-                data={userTrips}
-                renderItem={({ item }) => (
-                    <UserTripCard trip={item} />
-                )}
-                keyExtractor={(item) => item.docId}
-            />
-
+            {userTrips.map(userTrip => <UserTripCard trip={userTrip} key={userTrip.docId} />)}
         </View>
     )
 }

@@ -15,7 +15,7 @@ export default function SearchTripCard() {
     }, [tripData]);
 
     const handleContinue = () => {
-        if (!tripData.locationInfo?.query || tripData.locationInfo.query.trim() === "") {
+        if (!tripData.locationInfo?.query || tripData.locationInfo?.query.trim() === "") {
             setInputError(true);
             Alert.alert("Error", "Please enter a location to continue.");
         } else {

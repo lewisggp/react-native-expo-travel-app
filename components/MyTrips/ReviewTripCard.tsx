@@ -18,7 +18,7 @@ export default function ReviewTripCard() {
                     <Text style={styles.icon}>📍</Text>
                     <View style={styles.textGroup}>
                         <Text style={styles.infoLabel}>Destination</Text>
-                        <Text style={styles.infoText}>{tripData.locationInfo.query}</Text>
+                        <Text style={styles.infoText}>{tripData.locationInfo?.query}</Text>
                     </View>
                 </View>
 

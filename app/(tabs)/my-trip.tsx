@@ -7,9 +7,11 @@ import { useEffect, useState } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { auth, db } from "@/configs/Firebase";
 import UserTripList from "@/components/MyTrips/UserTripList";
+import { useRouter } from "expo-router";
 
 export default function MyTrip() {
     const insets = useSafeAreaInsets();
+    const router = useRouter();
 
     const user = auth.currentUser;
     const [userTrips, setUserTrips] = useState<any[]>([]);
@@ -38,7 +40,7 @@ export default function MyTrip() {
                 <Text style={styles.title}>My Trips</Text>
                 <TouchableOpacity
                     style={styles.addButton}
-                    onPress={() => alert('Add a new trip')}
+                    onPress={() => router.push('/create-trip/search-place')}
                 >
                     <Ionicons name="add-circle-outline" size={36} color={Colors.black} />
                 </TouchableOpacity>
@@ -46,9 +48,9 @@ export default function MyTrip() {
 
             {loading && (<ActivityIndicator size={'large'} color={Colors.gray} />)}
 
-            {userTrips?.length > 0 ? (
+            {!loading && (userTrips?.length > 0 ? (
                 <UserTripList userTrips={userTrips} />
-            ) : <StartNewTripCard />}
+            ) : <StartNewTripCard />)}
         </ScrollView>
     );
 }
