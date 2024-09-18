@@ -38,7 +38,7 @@ export default function SelectBudgetCard() {
             </View>
 
             <TouchableOpacity style={styles.buttonContainer}>
-                <Link href={'/create-trip/select-date'} style={{ textAlign: 'center' }}>
+                <Link href={'/create-trip/review-trip'} style={{ textAlign: 'center' }}>
                     <Text style={styles.buttonText}>Continue</Text>
                 </Link>
             </TouchableOpacity>
